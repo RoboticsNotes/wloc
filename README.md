@@ -259,11 +259,14 @@ Pages 部署不支持一键按钮，需要手动执行：
 git clone https://github.com/ios151/wloc.git
 cd wloc/worker
 npm install
-npm run pages:deploy
+npx wrangler login              # 首次需要
+npx wrangler pages deploy dist --project-name 你的项目名
 ```
 
-> 必须走 `npm run pages:deploy`（它带 `-c wrangler.pages.jsonc`）。直接跑
-> `wrangler pages deploy dist` 会丢掉配置里的 compatibility 设定。
+> 新版 wrangler 的 `pages deploy` 已不支持 `-c` 指定配置文件（会报
+> `Pages does not support custom paths for the Wrangler configuration file`），
+> 所以用 `--project-name` 直接部署。worker 只用标准 Web API（fetch/URL/
+> TextDecoder），不依赖特定 compatibility date，功能与 Workers 一致。
 
 部署时会提示设置 production branch，输入 `main` 即可。部署成功后得到 `https://<项目名>.pages.dev` 地址。
 
